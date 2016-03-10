@@ -5,6 +5,7 @@ class Gallery {
     this._el = options.element;
     this._images = options.images;
 
+    // вставка шаблона
     this._el.innerHTML = `
         <p>
           <img data-selector="largeImage" src="https://js.cx/gallery/img1-lg.jpg" alt="Large image">
@@ -13,11 +14,14 @@ class Gallery {
         <ul data-selector="imageList"></ul>
     `;
 
+    // под элементы
     this._largeImage = this._el.querySelector('[data-selector="largeImage"]');
     this._imageList = this._el.querySelector('[data-selector="imageList"]');
 
+    // инициализация
     this._preloadImages();
     this._renderImages();
+
 
     this._imageList.addEventListener('click', this._onThumbClick.bind(this));
   }
