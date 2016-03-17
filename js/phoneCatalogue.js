@@ -1,8 +1,8 @@
 'use strict';
 
-class PhoneCatalogue {
+class PhoneCatalogue extends Component {
   constructor(options) {
-    this._el = options.element;
+    super(options);
 
     this._template = document.getElementById('phone-catalogue-template').innerHTML;
 
@@ -10,6 +10,27 @@ class PhoneCatalogue {
       title: 'Phone Catalogue',
       phones: options.phones
     });
+
+    this._el.addEventListener('click', this._onPhoneClick.bind(this));
   }
 
+  _onPhoneClick(event) {
+    let link = event.target.closest('[data-selector="openTrigger"]');
+
+    if (!link) {
+      return;
+    }
+
+    let phoneId = link.closest('[data-selector="phoneItemContainer"]').dataset.phoneId;
+
+    this._triggerPhoneSelected(phoneId);
+  }
+
+  _triggerPhoneSelected(phoneId) {
+    var event = new CustomEvent('phoneSelected', {
+      detail: phoneId
+    });
+
+    this._el.dispatchEvent(event);
+  }
 }

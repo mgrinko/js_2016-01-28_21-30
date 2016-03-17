@@ -8,10 +8,36 @@ class Page {
       element: this._el.querySelector('[data-component="phoneCatalogue"]'),
       phones: this._getPhones()
     });
+
+    this._phoneViewer = new PhoneViewer({
+      element: this._el.querySelector('[data-component="phoneViewer"]')
+    });
+
+    this._phoneCatalogue.getElement().addEventListener('phoneSelected', this._onPhoneSelected.bind(this));
+    this._phoneViewer.getElement().addEventListener('back', this._onPhoneViewerBack.bind(this));
+  }
+
+  _onPhoneSelected(event) {
+    let phoneId = event.detail;
+    let phoneDetails = this._getPhoneDetails(phoneId);
+
+    this._phoneViewer.show(phoneDetails);
+    this._phoneCatalogue.hide();
+  }
+
+  _onPhoneViewerBack() {
+    this._phoneViewer.hide();
+    this._phoneCatalogue.show();
   }
 
   _getPhones() {
     return phones;
+  }
+
+  _getPhoneDetails(phoneId) {
+    return phones.filter(function(phone) {
+      return phone.id === phoneId;
+    })[0];
   }
 }
 

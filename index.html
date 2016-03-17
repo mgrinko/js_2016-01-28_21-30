@@ -9,6 +9,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js" defer></script>
 
+  <script src="js/component.js" defer></script>
+  <script src="js/phoneViewer.js" defer></script>
   <script src="js/phoneCatalogue.js" defer></script>
   <script src="js/page.js" defer></script>
   <script src="js/app.js" defer></script>
@@ -63,13 +65,17 @@
 
   <ul class="phones">
     <% phones.forEach(function(phone) { %>
-      <li class="thumbnail phone-listing">
-        <a href="#/phones/<%- phone.id %>"class="thumb">
+
+      <li class="thumbnail phone-listing" data-selector="phoneItemContainer" data-phone-id="<%- phone.id %>">
+        <a href="#/phones/<%- phone.id %>" class="thumb" data-selector="openTrigger">
           <img src="<%= phone.imageUrl %>" alt="<%- phone.name %>">
         </a>
-        <a href="#/phones/<%- phone.id %>"><%= phone.name %></a>
+
+        <a href="#/phones/<%- phone.id %>" data-selector="openTrigger"><%= phone.name %></a>
+
         <p><%= phone.snippet %></p>
       </li>
+
     <% }); %>
   </ul>
 </script>
