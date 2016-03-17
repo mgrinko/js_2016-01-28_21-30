@@ -23,14 +23,6 @@ class PhoneCatalogue extends Component {
 
     let phoneId = link.closest('[data-selector="phoneItemContainer"]').dataset.phoneId;
 
-    this._triggerPhoneSelected(phoneId);
-  }
-
-  _triggerPhoneSelected(phoneId) {
-    var event = new CustomEvent('phoneSelected', {
-      detail: phoneId
-    });
-
-    this._el.dispatchEvent(event);
+    this._trigger('phoneSelected', phoneId);
   }
 }
