@@ -8,8 +8,10 @@
   <meta charset="utf-8">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js" defer></script>
-  <script src="menu.js" defer></script>
-  <script src="app.js" defer></script>
+
+  <script src="js/phoneCatalogue.js" defer></script>
+  <script src="js/page.js" defer></script>
+  <script src="js/app.js" defer></script>
 </head>
 
 <body>
@@ -57,7 +59,7 @@
 </script>
 
 <script type="text/template" id="phone-catalogue-template">
-  <p>Phone catalogue</p>
+  <p><%- title %></p>
 
   <ul class="phones">
     <% phones.forEach(function(phone) { %>
