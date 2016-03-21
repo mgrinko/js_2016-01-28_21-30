@@ -1,5 +1,8 @@
 'use strict';
 
+let PhoneCatalogue = require('./phoneCatalogue.js');
+let PhoneViewer = require('./phoneViewer.js');
+
 class Page {
   constructor(options) {
     this._el = options.element;
@@ -41,7 +44,9 @@ class Page {
   }
 }
 
-let phones = [
+module.exports = Page;
+
+const phones = [
   {
     "age": 0,
     "id": "motorola-xoom-with-wi-fi",

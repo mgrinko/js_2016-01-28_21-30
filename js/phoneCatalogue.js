@@ -1,5 +1,7 @@
 'use strict';
 
+let Component = require('./component.js');
+
 class PhoneCatalogue extends Component {
   constructor(options) {
     super(options);
@@ -26,3 +28,5 @@ class PhoneCatalogue extends Component {
     this._trigger('phoneSelected', phoneId);
   }
 }
+
+module.exports = PhoneCatalogue;

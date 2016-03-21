@@ -1,5 +1,7 @@
 'use strict';
 
+let Component = require('./component.js');
+
 class PhoneViewer extends Component {
   constructor(options) {
     super(options);
@@ -28,3 +30,5 @@ class PhoneViewer extends Component {
     this._trigger('back');
   }
 }
+
+module.exports = PhoneViewer;

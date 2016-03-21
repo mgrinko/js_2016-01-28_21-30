@@ -29,3 +29,5 @@ class Component {
     this._el.dispatchEvent(event);
   }
 }
+
+module.exports = Component;
