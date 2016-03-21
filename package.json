@@ -1,0 +1,26 @@
+{
+  "name": "js_2016-01-28_21-30",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mgrinko/js_2016-01-28_21-30.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mgrinko/js_2016-01-28_21-30/issues"
+  },
+  "homepage": "https://github.com/mgrinko/js_2016-01-28_21-30#readme",
+  "devDependencies": {
+    "babel-core": "^6.7.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.12.14"
+  }
+}
