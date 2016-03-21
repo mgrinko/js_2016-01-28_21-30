@@ -1,14 +1,13 @@
 'use strict';
 
 let Component = require('./component.js');
+let templateFunction = require('../templates/phone-catalogue-template.hbs');
 
 class PhoneCatalogue extends Component {
   constructor(options) {
     super(options);
 
-    this._template = document.getElementById('phone-catalogue-template').innerHTML;
-
-    this._el.innerHTML = _.template(this._template)({
+    this._el.innerHTML = templateFunction({
       title: 'Phone Catalogue',
       phones: options.phones
     });

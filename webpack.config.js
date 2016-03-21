@@ -8,6 +8,10 @@ module.exports = {
     path: __dirname,
     filename: "build.js"
   },
+  //
+  //externals: {
+  //  lodash: '_'
+  //},
 
   watch: true,
   devtool: 'source-map',
@@ -22,7 +26,12 @@ module.exports = {
         query: {
           presets: ['es2015']
         }
+      },
+      {
+        test: /\.hbs$/,
+        loader: "handlebars-loader"
       }
+
     ]
   }
 
