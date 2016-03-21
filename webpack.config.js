@@ -1,6 +1,7 @@
 'use strict';
 
 let path = require('path');
+let webpack = require('webpack');
 
 module.exports = {
   entry: "./js/app.js",
@@ -33,7 +34,15 @@ module.exports = {
       }
 
     ]
-  }
+  },
+
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]
 
 };
 
