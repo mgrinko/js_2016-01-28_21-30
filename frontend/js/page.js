@@ -46,4 +46,4 @@ class Page {
 
 module.exports = Page;
 
-let phones = require('json!../data/phones.json');
+let phones = require('json!../../server/data/phones.json');

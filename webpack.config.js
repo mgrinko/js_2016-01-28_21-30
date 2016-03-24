@@ -4,9 +4,9 @@ let path = require('path');
 let webpack = require('webpack');
 
 module.exports = {
-  entry: "./js/app.js",
+  entry: "./frontend/js/app.js",
   output: {
-    path: __dirname,
+    path: __dirname + '/public',
     filename: "build.js"
   },
   //
@@ -36,13 +36,13 @@ module.exports = {
     ]
   },
 
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ]
+  //plugins: [
+  //  new webpack.optimize.UglifyJsPlugin({
+  //    compress: {
+  //      warnings: false
+  //    }
+  //  })
+  //]
 
 };
 

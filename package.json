@@ -23,6 +23,7 @@
     "handlebars": "^4.0.5",
     "handlebars-loader": "^1.2.0",
     "json-loader": "^0.5.4",
+    "node-static": "^0.7.7",
     "raw-loader": "^0.5.1",
     "webpack": "^1.12.14"
   }
