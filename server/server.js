@@ -7,8 +7,12 @@ var file = new static.Server('.', {
 
 function accept(req, res) {
   console.log(req.url);
-  
-  if (req.url == '/data/phones.json') {
+
+  if (req.url.slice(0, 5) === '/data') {
+    req.url = '/server' + req.url;
+  }
+
+  if (req.url == '/server/data/phones.json') {
     setTimeout(function() {
       file.serve(req, res);
     }, 3000);
