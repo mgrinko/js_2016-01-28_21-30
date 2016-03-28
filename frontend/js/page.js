@@ -1,5 +1,41 @@
 'use strict';
 
+class PromiseExample {
+  constructor(f) {
+    this._successCallBacks = [];
+    this._errorCallBacks = [];
+
+    this._status = 'pending';
+
+    f(this._resolve.bind(this), this._reject.bind(this));
+  }
+
+  then(success, error) {
+    this._successCallBacks.push(success);
+    this._errorCallBacks.push(success);
+
+    if (this._status === 'fulfilled') {
+      this._runSuccessCallbacks(this._data);
+    }
+
+    if (this._status === 'rejected') {
+      this._runErrorCallbacks(this._error);
+    }
+  }
+
+  _resolve(data) {
+    this._status = 'fulfilled';
+    this._data = data;
+    this._runSuccessCallbacks(data);
+  }
+
+  _reject(error) {
+    this._status = 'rejected';
+    this._error = error
+    this._runErrorCallbacks(error);
+  }
+}
+
 let PhoneCatalogue = require('./phoneCatalogue.js');
 let PhoneViewer = require('./phoneViewer.js');
 let Filter = require('./filter.js');
@@ -34,11 +70,12 @@ class Page {
     let phoneDetailsPromise = this.ajax(`/data/phones/${phoneId}.json`);
     let mouseLeavePromise = this._createMouseLeavePromise(phoneElement);
 
-    mouseLeavePromise
-      .then(function(data) {
-        return phoneDetailsPromise;
-      })
-      .then(this._onPhoneDetailsLoaded.bind(this), this._onAjaxError.bind(this));
+    Promise.all([mouseLeavePromise, phoneDetailsPromise])
+      .then(function(responses) {
+        this._showPhoneDetails(responses[1])
+      }.bind(this))
+
+      .catch(this._onAjaxError.bind(this));
 
     //phoneElement.addEventListener('mouseleave', () => {
     //  this.ajax(`/data/phones/${phoneId}.json`, {
@@ -57,10 +94,6 @@ class Page {
         element.removeEventListener('mouseleave', mouseLeaveHandler);
       }
     });
-  }
-
-  _onPhoneDetailsLoaded(phoneDetails) {
-    this._showPhoneDetails(phoneDetails)
   }
 
   _showPhoneDetails(phoneDetails) {
@@ -116,6 +149,12 @@ class Page {
       xhr.open(method, url, true);
 
       xhr.onload = function() {
+        if (xhr.status !== 200) {
+          reject(new Error(xhr.responseText));
+
+          return;
+        }
+
         var data = JSON.parse(xhr.responseText);
 
         //options.success(data);
