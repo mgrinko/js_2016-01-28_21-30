@@ -10,9 +10,7 @@ function accept(req, res) {
 
   if (req.url.slice(0, 5) === '/data') {
     req.url = '/server' + req.url;
-  }
 
-  if (req.url == '/server/data/phones.json') {
     setTimeout(function() {
       file.serve(req, res);
     }, 3000);

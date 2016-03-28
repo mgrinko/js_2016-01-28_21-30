@@ -27,6 +27,39 @@ class Page {
     this._filter.on('filter', this._onFilterChange.bind(this));
   }
 
+  _onPhoneSelected(event) {
+    let phoneId = event.detail.phoneId;
+
+    this._phoneElement = event.detail.phoneElement;
+
+    let phoneDetailsPromise = this.ajax(`/data/phones/${phoneId}.json`);
+
+    this._phoneElement.addEventListener('mouseleave', function() {
+      phoneDetailsPromise.then(this._onPhoneDetailsLoaded.bind(this), this._onAjaxError.bind(this));
+    }.bind(this));
+
+    //phoneElement.addEventListener('mouseleave', () => {
+    //  this.ajax(`/data/phones/${phoneId}.json`, {
+    //    success: this._onPhoneDetailsLoaded.bind(this),
+    //    error: this._onAjaxError.bind(this)
+    //  });
+    //});
+  }
+
+  _onPhoneDetailsLoaded(phoneDetails) {
+    this._showPhoneDetails(phoneDetails)
+  }
+
+  _showPhoneDetails(phoneDetails) {
+    this._phoneViewer.show(phoneDetails);
+    this._phoneCatalogue.hide();
+  }
+
+  _onPhoneViewerBack() {
+    this._phoneViewer.hide();
+    this._phoneCatalogue.show();
+  }
+
   _onFilterChange(event) {
     let query = event.detail.toLowerCase();
 
@@ -42,29 +75,6 @@ class Page {
     this._phoneCatalogue.show(filteredPhones);
   }
 
-  _onPhoneSelected(event) {
-    let phoneId = event.detail;
-
-    this._showPhoneDetails(phoneId);
-  }
-
-  _showPhoneDetails(phoneId) {
-    this.ajax(`/data/phones/${phoneId}.json`, {
-      success: this._onPhoneDetailsLoaded.bind(this),
-      error: this._onAjaxError.bind(this)
-    });
-  }
-
-  _onPhoneDetailsLoaded(phoneDetails) {
-    this._phoneViewer.show(phoneDetails);
-    this._phoneCatalogue.hide();
-  }
-
-  _onPhoneViewerBack() {
-    this._phoneViewer.hide();
-    this._phoneCatalogue.show();
-  }
-
   _syncPhones(query) {
     let url = '/data/phones.json';
 
@@ -72,10 +82,9 @@ class Page {
       url += `?query=${query}`;
     }
 
-    this.ajax(url, {
-      success: this._onPhonesSyncSuccess.bind(this),
-      error: this._onAjaxError.bind(this)
-    });
+    this.ajax(url)
+      .then(this._onPhonesSyncSuccess.bind(this))
+      .catch(this._onAjaxError.bind(this));
   }
 
   _onPhonesSyncSuccess(phones) {
@@ -84,23 +93,31 @@ class Page {
   }
 
   ajax(url, options) {
-    let method = options.method || 'GET';
+    options = options || {};
 
-    let xhr = new XMLHttpRequest();
+    let promise = new Promise(function(resolve, reject) {
+      let method = options.method || 'GET';
 
-    xhr.open(method, url, true);
+      let xhr = new XMLHttpRequest();
 
-    xhr.onload = function() {
-      var data = JSON.parse(xhr.responseText);
+      xhr.open(method, url, true);
 
-      options.success(data);
-    };
+      xhr.onload = function() {
+        var data = JSON.parse(xhr.responseText);
 
-    xhr.onerror = function() {
-      options.error(new Error(xhr.responseText));
-    };
+        //options.success(data);
+        resolve(data);
+      };
 
-    xhr.send();
+      xhr.onerror = function() {
+        //options.error(new Error(xhr.responseText));
+        reject(new Error(xhr.responseText));
+      };
+
+      xhr.send();
+    });
+
+    return promise;
   }
 
   _onAjaxError(error) {

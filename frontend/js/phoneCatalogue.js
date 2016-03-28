@@ -19,9 +19,12 @@ class PhoneCatalogue extends Component {
       return;
     }
 
-    let phoneId = link.closest('[data-selector="phoneItemContainer"]').dataset.phoneId;
+    let element = link.closest('[data-selector="phoneItemContainer"]');
 
-    this._trigger('phoneSelected', phoneId);
+    this._trigger('phoneSelected', {
+      phoneElement: element,
+      phoneId: element.dataset.phoneId
+    });
   }
 
   show(phones) {
