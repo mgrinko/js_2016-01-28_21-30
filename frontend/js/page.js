@@ -30,10 +30,13 @@ class Page {
   _onFilterChange(event) {
     let query = event.detail.toLowerCase();
 
+    // server filtering
     //this._syncPhones(query);
 
     let filteredPhones = this._phones.filter(function(phone) {
-      return phone.name.toLowerCase().indexOf(query) > -1;
+      return phone.name.toLowerCase().indexOf(query) > -1
+        || phone.snippet.toLowerCase().indexOf(query) > -1;
+
     });
 
     this._phoneCatalogue.show(filteredPhones);
