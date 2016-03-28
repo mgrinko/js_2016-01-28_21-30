@@ -2,6 +2,7 @@
 
 let PhoneCatalogue = require('./phoneCatalogue.js');
 let PhoneViewer = require('./phoneViewer.js');
+let Filter = require('./filter.js');
 
 class Page {
   constructor(options) {
@@ -17,8 +18,25 @@ class Page {
       element: this._el.querySelector('[data-component="phoneViewer"]')
     });
 
+    this._filter = new Filter({
+      element: this._el.querySelector('[data-component="filter"]')
+    });
+
     this._phoneCatalogue.on('phoneSelected', this._onPhoneSelected.bind(this));
     this._phoneViewer.on('back', this._onPhoneViewerBack.bind(this));
+    this._filter.on('filter', this._onFilterChange.bind(this));
+  }
+
+  _onFilterChange(event) {
+    let query = event.detail.toLowerCase();
+
+    //this._syncPhones(query);
+
+    let filteredPhones = this._phones.filter(function(phone) {
+      return phone.name.toLowerCase().indexOf(query) > -1;
+    });
+
+    this._phoneCatalogue.show(filteredPhones);
   }
 
   _onPhoneSelected(event) {
@@ -44,14 +62,21 @@ class Page {
     this._phoneCatalogue.show();
   }
 
-  _syncPhones() {
-    this.ajax('/data/phones.json', {
+  _syncPhones(query) {
+    let url = '/data/phones.json';
+
+    if (query) {
+      url += `?query=${query}`;
+    }
+
+    this.ajax(url, {
       success: this._onPhonesSyncSuccess.bind(this),
       error: this._onAjaxError.bind(this)
     });
   }
 
   _onPhonesSyncSuccess(phones) {
+    this._phones = phones;
     this._phoneCatalogue.show(phones);
   }
 
