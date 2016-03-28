@@ -88,14 +88,16 @@
 	
 	  _onPhoneSelected(event) {
 	    let phoneId = event.detail.phoneId;
-	
-	    this._phoneElement = event.detail.phoneElement;
+	    let phoneElement = event.detail.phoneElement;
 	
 	    let phoneDetailsPromise = this.ajax(`/data/phones/${phoneId}.json`);
+	    let mouseLeavePromise = this._createMouseLeavePromise(phoneElement);
 	
-	    this._phoneElement.addEventListener('mouseleave', function() {
-	      phoneDetailsPromise.then(this._onPhoneDetailsLoaded.bind(this), this._onAjaxError.bind(this));
-	    }.bind(this));
+	    mouseLeavePromise
+	      .then(function(data) {
+	        return phoneDetailsPromise;
+	      })
+	      .then(this._onPhoneDetailsLoaded.bind(this), this._onAjaxError.bind(this));
 	
 	    //phoneElement.addEventListener('mouseleave', () => {
 	    //  this.ajax(`/data/phones/${phoneId}.json`, {
@@ -103,6 +105,17 @@
 	    //    error: this._onAjaxError.bind(this)
 	    //  });
 	    //});
+	  }
+	
+	  _createMouseLeavePromise(element) {
+	    return new Promise(function(resolve) {
+	      element.addEventListener('mouseleave', mouseLeaveHandler);
+	
+	      function mouseLeaveHandler(event) {
+	        resolve();
+	        element.removeEventListener('mouseleave', mouseLeaveHandler);
+	      }
+	    });
 	  }
 	
 	  _onPhoneDetailsLoaded(phoneDetails) {
