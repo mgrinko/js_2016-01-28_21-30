@@ -1,0 +1,17 @@
+<p>{{ title }}</p>
+
+<ul class="phones">
+  {{# each phones }}
+
+    <li class="thumbnail phone-listing" data-selector="phoneItemContainer" data-phone-id="{{ this.id }}">
+      <a href="#/phones/{{ this.id }}" class="thumb" data-selector="openTrigger">
+        <img src="{{ this.imageUrl }}" alt="{{ this.name }}">
+      </a>
+  
+      <a href="#/phones/{{ this.id }}" data-selector="openTrigger">{{ this.name }}</a>
+  
+      <p>{{ this.snippet }}</p>
+    </li>
+
+  {{/each}}
+</ul>

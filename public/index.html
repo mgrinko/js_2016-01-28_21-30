@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Каталог телефонов</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+  <meta charset="utf-8">
+
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js" defer></script>-->
+
+  <script src="build.js" defer></script>
+</head>
+
+<body>
+
+<div class="view-container" id="app-container">
+  <div class="view-frame">
+    <div class="container-fluid">
+      <div class="row">
+
+        <!--Sidebar content-->
+        <div class="col-md-2">
+          <div data-component="filter">
+            Search: <input type="text" data-component="filterField">
+          </div>
+
+          <div data-component="sorter">
+            <select>
+              <option value="name">Alphabetically</option>
+              <option value="age">Historically</option>
+            </select>
+          </div>
+        </div>
+
+        <!--Body content-->
+        <div class="col-md-10">
+
+          <div data-component="phoneCatalogue"></div>
+
+          <div class="js-hidden" data-component="phoneViewer"></div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>
